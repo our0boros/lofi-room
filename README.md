@@ -78,6 +78,24 @@ yarn build
 
 构建文件将输出到 `build/` 目录
 
+### 打包为 Windows EXE（推荐使用 GitHub Actions）
+
+由于本地构建可能遇到网络和权限问题，推荐使用 GitHub Actions 进行云端构建。
+
+#### 快速开始
+
+1. 运行 `setup-github-actions.bat` 脚本自动设置 GitHub 仓库
+2. 在 GitHub 网页上点击 Actions 标签
+3. 选择 "Build Windows EXE" 工作流
+4. 点击 "Run workflow" 开始构建
+5. 等待 5-10 分钟后下载生成的 exe 文件
+
+详细说明请参考 [GITHUB_ACTIONS_BUILD.md](GITHUB_ACTIONS_BUILD.md)
+
+#### 本地构建
+
+如果需要在本地构建，请参考 [ELECTRON_BUILD.md](ELECTRON_BUILD.md)
+
 ## 项目结构
 
 ```

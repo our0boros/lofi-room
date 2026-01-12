@@ -4,12 +4,15 @@
 /node_modules
 /.pnp
 .pnp.js
+/.winCodeSign-cache
+*.zip
 
 # testing
 /coverage
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store

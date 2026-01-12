@@ -1,0 +1,63 @@
+name: Build Windows EXE
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number'
+        required: false
+        default: '1.0.0'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+      
+      - name: Build React app
+        run: npm run build
+      
+      - name: Build Windows executable
+        run: npm run electron-pack-win
+        env:
+          ELECTRON_CACHE: ${{ github.workspace }}/.electron-cache
+          ELECTRON_BUILDER_CACHE: ${{ github.workspace }}/.electron-builder-cache
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: lofi-music-windows-installer
+          path: dist/*.exe
+          retention-days: 30
+      
+      - name: Generate release info
+        run: |
+          $files = Get-ChildItem -Path dist -Filter *.exe
+          foreach ($file in $files) {
+            Write-Host "Built: $($file.Name)"
+            Write-Host "Size: $([math]::Round($file.Length / 1MB, 2)) MB"
+          }
+      
+      - name: Create release summary
+        run: |
+          echo "# Build Summary" >> $env:GITHUB_STEP_SUMMARY
+          echo "" >> $env:GITHUB_STEP_SUMMARY
+          echo "## Windows Installer" >> $env:GITHUB_STEP_SUMMARY
+          echo "" >> $env:GITHUB_STEP_SUMMARY
+          $files = Get-ChildItem -Path dist -Filter *.exe
+          foreach ($file in $files) {
+            echo "### $($file.Name)" >> $env:GITHUB_STEP_SUMMARY
+            echo "- Size: $([math]::Round($file.Length / 1MB, 2)) MB" >> $env:GITHUB_STEP_SUMMARY
+            echo "- Path: dist/$($file.Name)" >> $env:GITHUB_STEP_SUMMARY
+          }
