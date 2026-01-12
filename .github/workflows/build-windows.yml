@@ -22,29 +22,32 @@ jobs:
           node-version: '18'
           cache: 'npm'
       
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+      
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
       
       - name: Build React app
         run: npm run build
       
-      - name: Build Windows executable
-        run: npm run electron-pack-win
+      - name: Build Windows executable with Tauri
+        run: npm run tauri:build:win
         env:
-          ELECTRON_CACHE: ${{ github.workspace }}/.electron-cache
-          ELECTRON_BUILDER_CACHE: ${{ github.workspace }}/.electron-builder-cache
           GH_TOKEN: ""
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: lofi-music-windows-installer
-          path: dist/*.exe
+          path: src-tauri/target/*/bundle/nsis/*.exe
           retention-days: 30
       
       - name: Generate release info
         run: |
-          $files = Get-ChildItem -Path dist -Filter *.exe
+          $files = Get-ChildItem -Path src-tauri/target -Recurse -Filter *.exe
           foreach ($file in $files) {
             Write-Host "Built: $($file.Name)"
             Write-Host "Size: $([math]::Round($file.Length / 1MB, 2)) MB"
@@ -56,9 +59,9 @@ jobs:
           echo "" >> $env:GITHUB_STEP_SUMMARY
           echo "## Windows Installer" >> $env:GITHUB_STEP_SUMMARY
           echo "" >> $env:GITHUB_STEP_SUMMARY
-          $files = Get-ChildItem -Path dist -Filter *.exe
+          $files = Get-ChildItem -Path src-tauri/target -Recurse -Filter *.exe
           foreach ($file in $files) {
             echo "### $($file.Name)" >> $env:GITHUB_STEP_SUMMARY
             echo "- Size: $([math]::Round($file.Length / 1MB, 2)) MB" >> $env:GITHUB_STEP_SUMMARY
-            echo "- Path: dist/$($file.Name)" >> $env:GITHUB_STEP_SUMMARY
+            echo "- Path: $($file.FullName)" >> $env:GITHUB_STEP_SUMMARY
           }

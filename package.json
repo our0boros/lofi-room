@@ -2,13 +2,13 @@
   "name": "lofi-clone",
   "version": "0.1.0",
   "private": true,
-  "main": "electron/main.js",
   "homepage": "./",
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/material": "^5.2.7",
     "@reduxjs/toolkit": "^1.9.5",
+    "@tauri-apps/api": "^2.9.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
@@ -40,11 +40,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron": "electron .",
-    "electron-dev": "node scripts/start-dev-server.js",
-    "electron-pack": "npm run build && electron-builder",
-    "electron-pack-win": "npm run build && electron-builder --win",
-    "preelectron-pack": "npm run build"
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "tauri:build:win": "tauri build --target x86_64-pc-windows-msvc"
   },
   "eslintConfig": {
     "extends": [
@@ -64,47 +63,7 @@
       "last 1 safari version"
     ]
   },
-  "build": {
-    "appId": "com.lofi-music-website.app",
-    "productName": "Lofi Music",
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-      "build/**/*",
-      "electron/**/*",
-      "package.json"
-    ],
-    "extraMetadata": {
-      "main": "electron/main.js"
-    },
-    "asar": false,
-    "publish": null,
-    "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        }
-      ],
-      "icon": "public/assets/icons/lofi-logo.png"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
-    },
-    "afterSign": "scripts/afterSign.js"
-  },
   "devDependencies": {
-    "concurrently": "^9.2.1",
-    "cross-env": "^10.1.0",
-    "electron": "^39.2.7",
-    "electron-builder": "^26.4.0",
-    "electron-is-dev": "^3.0.1",
-    "wait-on": "^9.0.3"
+    "@tauri-apps/cli": "^2.9.6"
   }
 }

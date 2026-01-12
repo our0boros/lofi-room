@@ -4,6 +4,7 @@ import "./styles.scss";
 import { Link } from "react-router-dom";
 import DarkLightSwitch from "../../components/DarkLightSwitch";
 import { RootState } from "../../store/store";
+import { getCurrentWindow } from "@tauri-apps/api/window";
 
 export interface IDarkLightSwitchProps {
   theme: string;
@@ -18,12 +19,18 @@ const Header = () => {
     dispatch(toggleDayNight());
   };
 
-  const fullscreenHandler = () => {
-    const isFullscreen = !!document.fullscreenElement;
-    if (!isFullscreen) {
-      document.documentElement.requestFullscreen();
-    } else {
-      document.exitFullscreen();
+  const fullscreenHandler = async () => {
+    try {
+      const appWindow = getCurrentWindow();
+      const isFullscreen = await appWindow.isFullscreen();
+      await appWindow.setFullscreen(!isFullscreen);
+    } catch (error) {
+      const isFullscreen = !!document.fullscreenElement;
+      if (!isFullscreen) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
     }
   };
 
