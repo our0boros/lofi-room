@@ -2,6 +2,12 @@
 
 一个基于 React 的 Lo-fi 音乐播放器，提供沉浸式音乐体验和自定义环境音效。
 
+![night](./README.assets/night.png)
+
+![day](./README.assets/day.png)
+
+
+
 ## 功能特性
 
 - 🎵 **音乐播放** - 支持 Lo-fi 音乐播放，包含播放、暂停、上一首、下一首功能
