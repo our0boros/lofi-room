@@ -33,6 +33,7 @@ jobs:
         env:
           ELECTRON_CACHE: ${{ github.workspace }}/.electron-cache
           ELECTRON_BUILDER_CACHE: ${{ github.workspace }}/.electron-builder-cache
+          GH_TOKEN: ""
       
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

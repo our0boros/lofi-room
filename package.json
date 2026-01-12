@@ -77,6 +77,7 @@
     "extraMetadata": {
       "main": "electron/main.js"
     },
+    "publish": null,
     "win": {
       "target": [
         {
