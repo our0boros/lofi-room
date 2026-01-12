@@ -16,7 +16,7 @@ function createWindow() {
       enableRemoteModule: false,
       preload: path.join(__dirname, 'preload.js')
     },
-    icon: path.join(__dirname, 'public/assets/icons/icon.png')
+    icon: path.join(__dirname, '../public/assets/icons/lofi-logo.png')
   });
 
   const startUrl = isDev 

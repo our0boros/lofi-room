@@ -87,7 +87,7 @@
           ]
         }
       ],
-      "icon": "public/assets/icons/icon.png"
+      "icon": "public/assets/icons/lofi-logo.png"
     },
     "nsis": {
       "oneClick": false,
@@ -102,6 +102,7 @@
     "cross-env": "^10.1.0",
     "electron": "^39.2.7",
     "electron-builder": "^26.4.0",
+    "electron-is-dev": "^3.0.1",
     "wait-on": "^9.0.3"
   }
 }
